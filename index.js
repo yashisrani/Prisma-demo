@@ -1,19 +1,21 @@
-const express = require('express')
-const app = express()
-const PORT = process.env.PORT || 3000
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
 require('dotenv').config();
 
-const routes = require('./Routes/user')
-app.use('/api/v1', routes);
+const prisma = require('./DB/db.config'); // Import Prisma client instance
+const routes = require('./Routes/user'); // Import user routes
 
-// middleware 
-app.use(express.json())
+// Middleware
+app.use(express.json()); // JSON parser middleware
+app.use('/api', routes); // Use routes with a base path
 
-app.get("/",(req,res)=>{
-    res.send("hello")
-})
+// Test route
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
 
-
-app.listen(PORT,()=>{
-    console.log(`server is listing on ${PORT}`)
-})
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
