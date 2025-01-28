@@ -22,13 +22,10 @@ const createuser = async (req, res) => {
 
 const batchadduser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { users  } = req.body;
     const newuser = await prisma.user.createMany({
-      data: {
-        name: name,
-        email: email,
-        password: password,
-      },
+      data: users,
+      skipDuplicates: true,
     });
     res.status(200).json({
       message: 'User created successfully',
